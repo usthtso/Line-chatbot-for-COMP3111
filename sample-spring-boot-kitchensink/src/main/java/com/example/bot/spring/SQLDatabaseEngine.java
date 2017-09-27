@@ -9,6 +9,7 @@ import java.net.URI;
 
 @Slf4j
 public class SQLDatabaseEngine extends DatabaseEngine {
+	private static boolean LOCAL=false;
 	@Override
 	String search(String text) throws Exception {
 		//Write your code here
@@ -16,7 +17,7 @@ public class SQLDatabaseEngine extends DatabaseEngine {
 		Connection connection=getConnection();
 		
 		PreparedStatement stmt=connection.prepareStatement("SELECT response FROM chatbotDBTable "
-				+ "WHERE LOWER(request) LIKE LOWER( CONCAT('%',?,'%') )");
+				+ "WHERE LOWER(request) LIKE LOWER( concat('%',?,'%') )");
 		
 		stmt.setString(1,text);
 		
@@ -34,17 +35,30 @@ public class SQLDatabaseEngine extends DatabaseEngine {
 		connection.close();
 		return result;
 	}
-	}
+	
 	
 	
 	private Connection getConnection() throws URISyntaxException, SQLException {
 		Connection connection;
 		URI dbUri = new URI(System.getenv("DATABASE_URL"));
 
-		String username = dbUri.getUserInfo().split(":")[0];
-		String password = dbUri.getUserInfo().split(":")[1];
-		String dbUrl = "jdbc:postgresql://" + dbUri.getHost() + ':' + dbUri.getPort() + dbUri.getPath() +  "?ssl=true&sslfactory=org.postgresql.ssl.NonValidatingFactory";
-
+		String username;
+		String password;
+		String dbUrl;
+		if(LOCAL) {	//LOCAL HOST
+			username = "programmer";
+			password = "iamaprogrammer";
+			dbUrl = "jdbc:postgresql://localhost:5432/chatbotDB";
+		}else {//SERVER on HEROKU
+			username = dbUri.getUserInfo().split(":")[0];
+			password = dbUri.getUserInfo().split(":")[1];
+			dbUrl = "jdbc:postgresql://" + dbUri.getHost() + ':' + dbUri.getPort() + dbUri.getPath() +  "?ssl=true&sslfactory=org.postgresql.ssl.NonValidatingFactory";
+		}
+		
+//		String username = dbUri.getUserInfo().split(":")[0];
+//		String password = dbUri.getUserInfo().split(":")[1];
+//		String dbUrl = "jdbc:postgresql://" + dbUri.getHost() + ':' + dbUri.getPort() + dbUri.getPath() +  "?ssl=true&sslfactory=org.postgresql.ssl.NonValidatingFactory";
+		
 		log.info("Username: {} Password: {}", username, password);
 		log.info ("dbUrl: {}", dbUrl);
 		
