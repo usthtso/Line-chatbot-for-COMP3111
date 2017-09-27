@@ -12,7 +12,28 @@ public class SQLDatabaseEngine extends DatabaseEngine {
 	@Override
 	String search(String text) throws Exception {
 		//Write your code here
-		return null;
+		String result;
+		Connection connection=getConnection();
+		
+		PreparedStatement stmt=connection.prepareStatement("SELECT response FROM chatbotDBTable "
+				+ "WHERE LOWER(request) LIKE LOWER( CONCAT('%',?,'%') )");
+		
+		stmt.setString(1,text);
+		
+		ResultSet rs = stmt.executeQuery();
+		if(!rs.next()) {	// not found
+			rs.close();
+			stmt.close();
+			connection.close();
+			throw new Exception("NOT FOUND");
+		}else {				//found
+			result=rs.getString(1);
+		}
+		rs.close();
+		stmt.close();
+		connection.close();
+		return result;
+	}
 	}
 	
 	
