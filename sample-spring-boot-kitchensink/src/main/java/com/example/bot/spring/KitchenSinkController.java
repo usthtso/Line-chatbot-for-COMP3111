@@ -242,14 +242,14 @@ public class KitchenSinkController {
                                         new URIAction("Go to line.me",
                                                       "https://line.me"),
                                         new PostbackAction("Say hello1",
-                                                           "hello")
+                                                           "hello u")
                                 )),
                                 new CarouselColumn(imageUrl, "hoge", "fuga", Arrays.asList(
                                         new PostbackAction("hello2",
-                                                           "hello",
-                                                           "hello"),
+                                                           "hello 123",
+                                                           "hello 456"),
                                         new MessageAction("Say message",
-                                                          "Rice")
+                                                          "Rice=on")
                                 ))
                         ));
                 TemplateMessage templateMessage = new TemplateMessage("Carousel alt text", carouselTemplate);
