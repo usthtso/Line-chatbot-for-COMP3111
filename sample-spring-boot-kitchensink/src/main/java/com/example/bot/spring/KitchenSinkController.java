@@ -242,12 +242,12 @@ public class KitchenSinkController {
                                         new URIAction("Go to line.me",
                                                       "https://line.me"),
                                         new PostbackAction("Say hello1",
-                                                           "hello u")
+                                                           "hello ã�“ã‚“ã�«ã�¡ã�¯")
                                 )),
                                 new CarouselColumn(imageUrl, "hoge", "fuga", Arrays.asList(
-                                        new PostbackAction("hello2",
-                                                           "hello 123",
-                                                           "hello 456"),
+                                        new PostbackAction("è¨€ hello2",
+                                                           "hello ã�“ã‚“ã�«ã�¡ã�¯",
+                                                           "hello ã�“ã‚“ã�«ã�¡ã�¯"),
                                         new MessageAction("Say message",
                                                           "Rice=on")
                                 ))
