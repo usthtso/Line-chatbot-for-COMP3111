@@ -45,15 +45,11 @@ public class SQLDatabaseEngine extends DatabaseEngine {
 		String username;
 		String password;
 		String dbUrl;
-		if(LOCAL) {	//LOCAL HOST
-			username = "programmer";
-			password = "iamaprogrammer";
-			dbUrl = "jdbc:postgresql://localhost:5432/chatbotDB";
-		}else {//SERVER on HEROKU
+		
 			username = dbUri.getUserInfo().split(":")[0];
 			password = dbUri.getUserInfo().split(":")[1];
 			dbUrl = "jdbc:postgresql://" + dbUri.getHost() + ':' + dbUri.getPort() + dbUri.getPath() +  "?ssl=true&sslfactory=org.postgresql.ssl.NonValidatingFactory";
-		}
+	
 		
 //		String username = dbUri.getUserInfo().split(":")[0];
 //		String password = dbUri.getUserInfo().split(":")[1];
