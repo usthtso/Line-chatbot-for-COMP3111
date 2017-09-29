@@ -16,8 +16,8 @@ public class SQLDatabaseEngine extends DatabaseEngine {
 		String result;
 		Connection connection=getConnection();
 		
-		PreparedStatement stmt=connection.prepareStatement("SELECT response FROM chatbotDBTable "
-				+ "WHERE LOWER(request) LIKE LOWER( concat('%',?,'%') )");
+		PreparedStatement stmt=connection.prepareStatement("SELECT response FROM reply "
+				+ "WHERE LOWER(keyword) LIKE LOWER( concat('%',?,'%') )");
 		
 		stmt.setString(1,text);
 		
@@ -45,12 +45,15 @@ public class SQLDatabaseEngine extends DatabaseEngine {
 		String username;
 		String password;
 		String dbUrl;
-		
+		if(LOCAL) {	//LOCAL HOST
+			username = "programmer";
+			password = "iamaprogrammer";
+			dbUrl = "jdbc:postgresql://localhost:5432/chatbotDB";
+		}else {//SERVER on HEROKU
 			username = dbUri.getUserInfo().split(":")[0];
 			password = dbUri.getUserInfo().split(":")[1];
 			dbUrl = "jdbc:postgresql://" + dbUri.getHost() + ':' + dbUri.getPort() + dbUri.getPath() +  "?ssl=true&sslfactory=org.postgresql.ssl.NonValidatingFactory";
-	
-		
+		}
 //		String username = dbUri.getUserInfo().split(":")[0];
 //		String password = dbUri.getUserInfo().split(":")[1];
 //		String dbUrl = "jdbc:postgresql://" + dbUri.getHost() + ':' + dbUri.getPort() + dbUri.getPath() +  "?ssl=true&sslfactory=org.postgresql.ssl.NonValidatingFactory";
