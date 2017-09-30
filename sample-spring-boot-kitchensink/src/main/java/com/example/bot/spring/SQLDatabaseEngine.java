@@ -20,14 +20,13 @@ public class SQLDatabaseEngine extends DatabaseEngine {
 				+ "WHERE LOWER(keyword) LIKE LOWER( concat('%',?,'%') )");
 		
 		stmt.setString(1,text);
-		
 		ResultSet rs = stmt.executeQuery();
-		if(!rs.next()) {	// not found
+		if(!rs.next()) {
 			rs.close();
 			stmt.close();
 			connection.close();
 			throw new Exception("NOT FOUND");
-		}else {				//found
+		}else {
 			result=rs.getString(1);
 		}
 		rs.close();
@@ -45,19 +44,15 @@ public class SQLDatabaseEngine extends DatabaseEngine {
 		String username;
 		String password;
 		String dbUrl;
-		if(LOCAL) {	//LOCAL HOST
+		if(LOCAL) {
 			username = "programmer";
 			password = "iamaprogrammer";
 			dbUrl = "jdbc:postgresql://localhost:5432/chatbotDB";
-		}else {//SERVER on HEROKU
+		}else {
 			username = dbUri.getUserInfo().split(":")[0];
 			password = dbUri.getUserInfo().split(":")[1];
 			dbUrl = "jdbc:postgresql://" + dbUri.getHost() + ':' + dbUri.getPort() + dbUri.getPath() +  "?ssl=true&sslfactory=org.postgresql.ssl.NonValidatingFactory";
 		}
-//		String username = dbUri.getUserInfo().split(":")[0];
-//		String password = dbUri.getUserInfo().split(":")[1];
-//		String dbUrl = "jdbc:postgresql://" + dbUri.getHost() + ':' + dbUri.getPort() + dbUri.getPath() +  "?ssl=true&sslfactory=org.postgresql.ssl.NonValidatingFactory";
-		
 		log.info("Username: {} Password: {}", username, password);
 		log.info ("dbUrl: {}", dbUrl);
 		
